@@ -14,11 +14,27 @@
       },
       "oauth_client": [
         {
-          "client_id": "397327388433-65fseeehvpp31u2uqh20kur9sfied35l.apps.googleusercontent.com",
+          "client_id": "397327388433-5oi78irie443egm9lnukkc43ljl4u1gk.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.eida.app",
-            "certificate_hash": "7e1e0739ef745c4558b0e66143cc99de3cd15b73"
+            "certificate_hash": "d2c8831462d33b40a62fb7ff3645ac9f3bfcfba4"
+          }
+        },
+        {
+          "client_id": "397327388433-5sokr628o6igok9esjg1h3v8c2dchira.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.eida.app",
+            "certificate_hash": "74402e99692136afd71ac00dc8e3e7d5fe0c97d9"
+          }
+        },
+        {
+          "client_id": "397327388433-gqd7ntnp7hheanh809tnnfg5te8btobq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.eida.app",
+            "certificate_hash": "a4120b1a6d3f82e3c138d16f4898ba134056f1a5"
           }
         },
         {
