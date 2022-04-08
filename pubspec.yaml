@@ -14,6 +14,8 @@ dependencies:
 
   cupertino_icons: ^1.0.4
   auto_route: ^3.2.4
+  dartz: ^0.10.1
+  uuid: ^3.0.6
 
 dev_dependencies:
   flutter_test:
@@ -22,6 +24,7 @@ dev_dependencies:
   flutter_lints: ^1.0.4
   auto_route_generator: ^3.2.3
   build_runner: ^2.1.8
+  freezed: ^1.1.1
 
 flutter:
   uses-material-design: true
