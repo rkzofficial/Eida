@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.eida">
+    package="com.eida.app">
    <application
         android:label="eida"
         android:name="${applicationName}"

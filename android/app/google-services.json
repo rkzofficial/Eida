@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "397327388433",
+    "project_id": "awesome-eida",
+    "storage_bucket": "awesome-eida.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:397327388433:android:d7fba8eb7acb75cd6346b0",
+        "android_client_info": {
+          "package_name": "com.eida.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "397327388433-65fseeehvpp31u2uqh20kur9sfied35l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.eida.app",
+            "certificate_hash": "7e1e0739ef745c4558b0e66143cc99de3cd15b73"
+          }
+        },
+        {
+          "client_id": "397327388433-skgh9g0v82gcpp3f7t2pe2u344864vao.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB9DNMZDYLCYXEz-LGjeYOh1gDrUnXLe8E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "397327388433-skgh9g0v82gcpp3f7t2pe2u344864vao.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
