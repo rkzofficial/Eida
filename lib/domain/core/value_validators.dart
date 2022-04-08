@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
-import 'package:eida/domain/core/failures.dart';
+
+import 'failures.dart';
 
 Either<ValueFailure<String>, String> validateEmailAddress(String input) {
   const emailRegex =
@@ -9,5 +10,29 @@ Either<ValueFailure<String>, String> validateEmailAddress(String input) {
     return right(input);
   } else {
     return left(ValueFailure.invalidEmail(failedValue: input));
+  }
+}
+
+Either<ValueFailure<String>, String> validatePassword(String input) {
+  if (input.length >= 8) {
+    return right(input);
+  } else {
+    return left(ValueFailure.shortPassword(failedValue: input));
+  }
+}
+
+Either<ValueFailure<String>, String> validatePhotoUrl(String input) {
+  if (Uri.parse(input).isAbsolute) {
+    return right(input);
+  } else {
+    return left(ValueFailure.invalidPhotoUrl(failedValue: input));
+  }
+}
+
+Either<ValueFailure<String>, String> validateSingleLine(String input) {
+  if (input.contains('\n')) {
+    return left(ValueFailure.multiline(failedValue: input));
+  } else {
+    return right(input);
   }
 }
