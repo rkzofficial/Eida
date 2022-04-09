@@ -1,7 +1,9 @@
 import 'package:eida/application/auth/auth_bloc.dart';
+import 'package:eida/injection.dart';
 import 'package:eida/presentation/pages/dashboard/widgets/profile_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../routes/router.gr.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({Key? key}) : super(key: key);
@@ -57,7 +59,11 @@ class DashboardPage extends StatelessWidget {
                           style: TextButton.styleFrom(
                             primary: Colors.blue[700],
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.pop(context);
+                            getIt<AppRouter>()
+                                .navigate(ChatRoute(chatType: 'restaurant'));
+                          },
                           icon: const Icon(Icons.restaurant),
                           label: const Text('Restaurant'),
                         ),
@@ -65,7 +71,11 @@ class DashboardPage extends StatelessWidget {
                           style: TextButton.styleFrom(
                             primary: Colors.green[700],
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.pop(context);
+                            getIt<AppRouter>()
+                                .navigate(ChatRoute(chatType: 'interview'));
+                          },
                           icon: const Icon(Icons.file_copy_sharp),
                           label: const Text('   Interview  '),
                         ),

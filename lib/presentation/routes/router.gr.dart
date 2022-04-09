@@ -33,8 +33,10 @@ class AppRouter extends _i5.RootStackRouter {
           routeData: routeData, child: const _i2.DashboardPage());
     },
     ChatRoute.name: (routeData) {
+      final args = routeData.argsAs<ChatRouteArgs>();
       return _i5.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i3.ChatPage());
+          routeData: routeData,
+          child: _i3.ChatPage(key: args.key, chatType: args.chatType));
     },
     SignInRoute.name: (routeData) {
       return _i5.MaterialPageX<dynamic>(
@@ -69,10 +71,25 @@ class DashboardRoute extends _i5.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i3.ChatPage]
-class ChatRoute extends _i5.PageRouteInfo<void> {
-  const ChatRoute() : super(ChatRoute.name, path: '/chat');
+class ChatRoute extends _i5.PageRouteInfo<ChatRouteArgs> {
+  ChatRoute({_i6.Key? key, required String chatType})
+      : super(ChatRoute.name,
+            path: '/chat', args: ChatRouteArgs(key: key, chatType: chatType));
 
   static const String name = 'ChatRoute';
+}
+
+class ChatRouteArgs {
+  const ChatRouteArgs({this.key, required this.chatType});
+
+  final _i6.Key? key;
+
+  final String chatType;
+
+  @override
+  String toString() {
+    return 'ChatRouteArgs{key: $key, chatType: $chatType}';
+  }
 }
 
 /// generated route for
