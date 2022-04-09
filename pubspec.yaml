@@ -29,6 +29,7 @@ dependencies:
   cached_network_image: ^3.2.0
   json_annotation: ^4.4.0
   freezed_annotation: ^1.1.0
+  speech_to_text: ^5.4.3
 
 dev_dependencies:
   flutter_test:
