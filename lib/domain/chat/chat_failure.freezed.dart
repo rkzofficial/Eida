@@ -25,6 +25,10 @@ class _$ChatFailureTearOff {
   CacheError cacheError() {
     return const CacheError();
   }
+
+  UnexpectedError unexpected() {
+    return const UnexpectedError();
+  }
 }
 
 /// @nodoc
@@ -36,18 +40,21 @@ mixin _$ChatFailure {
   TResult when<TResult extends Object?>({
     required TResult Function() serverError,
     required TResult Function() cacheError,
+    required TResult Function() unexpected,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? serverError,
     TResult Function()? cacheError,
+    TResult Function()? unexpected,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? serverError,
     TResult Function()? cacheError,
+    TResult Function()? unexpected,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -55,18 +62,21 @@ mixin _$ChatFailure {
   TResult map<TResult extends Object?>({
     required TResult Function(ServerError value) serverError,
     required TResult Function(CacheError value) cacheError,
+    required TResult Function(UnexpectedError value) unexpected,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(ServerError value)? serverError,
     TResult Function(CacheError value)? cacheError,
+    TResult Function(UnexpectedError value)? unexpected,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ServerError value)? serverError,
     TResult Function(CacheError value)? cacheError,
+    TResult Function(UnexpectedError value)? unexpected,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -130,6 +140,7 @@ class _$ServerError implements ServerError {
   TResult when<TResult extends Object?>({
     required TResult Function() serverError,
     required TResult Function() cacheError,
+    required TResult Function() unexpected,
   }) {
     return serverError();
   }
@@ -139,6 +150,7 @@ class _$ServerError implements ServerError {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? serverError,
     TResult Function()? cacheError,
+    TResult Function()? unexpected,
   }) {
     return serverError?.call();
   }
@@ -148,6 +160,7 @@ class _$ServerError implements ServerError {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? serverError,
     TResult Function()? cacheError,
+    TResult Function()? unexpected,
     required TResult orElse(),
   }) {
     if (serverError != null) {
@@ -161,6 +174,7 @@ class _$ServerError implements ServerError {
   TResult map<TResult extends Object?>({
     required TResult Function(ServerError value) serverError,
     required TResult Function(CacheError value) cacheError,
+    required TResult Function(UnexpectedError value) unexpected,
   }) {
     return serverError(this);
   }
@@ -170,6 +184,7 @@ class _$ServerError implements ServerError {
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(ServerError value)? serverError,
     TResult Function(CacheError value)? cacheError,
+    TResult Function(UnexpectedError value)? unexpected,
   }) {
     return serverError?.call(this);
   }
@@ -179,6 +194,7 @@ class _$ServerError implements ServerError {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ServerError value)? serverError,
     TResult Function(CacheError value)? cacheError,
+    TResult Function(UnexpectedError value)? unexpected,
     required TResult orElse(),
   }) {
     if (serverError != null) {
@@ -233,6 +249,7 @@ class _$CacheError implements CacheError {
   TResult when<TResult extends Object?>({
     required TResult Function() serverError,
     required TResult Function() cacheError,
+    required TResult Function() unexpected,
   }) {
     return cacheError();
   }
@@ -242,6 +259,7 @@ class _$CacheError implements CacheError {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? serverError,
     TResult Function()? cacheError,
+    TResult Function()? unexpected,
   }) {
     return cacheError?.call();
   }
@@ -251,6 +269,7 @@ class _$CacheError implements CacheError {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? serverError,
     TResult Function()? cacheError,
+    TResult Function()? unexpected,
     required TResult orElse(),
   }) {
     if (cacheError != null) {
@@ -264,6 +283,7 @@ class _$CacheError implements CacheError {
   TResult map<TResult extends Object?>({
     required TResult Function(ServerError value) serverError,
     required TResult Function(CacheError value) cacheError,
+    required TResult Function(UnexpectedError value) unexpected,
   }) {
     return cacheError(this);
   }
@@ -273,6 +293,7 @@ class _$CacheError implements CacheError {
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(ServerError value)? serverError,
     TResult Function(CacheError value)? cacheError,
+    TResult Function(UnexpectedError value)? unexpected,
   }) {
     return cacheError?.call(this);
   }
@@ -282,6 +303,7 @@ class _$CacheError implements CacheError {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ServerError value)? serverError,
     TResult Function(CacheError value)? cacheError,
+    TResult Function(UnexpectedError value)? unexpected,
     required TResult orElse(),
   }) {
     if (cacheError != null) {
@@ -293,4 +315,115 @@ class _$CacheError implements CacheError {
 
 abstract class CacheError implements ChatFailure {
   const factory CacheError() = _$CacheError;
+}
+
+/// @nodoc
+abstract class $UnexpectedErrorCopyWith<$Res> {
+  factory $UnexpectedErrorCopyWith(
+          UnexpectedError value, $Res Function(UnexpectedError) then) =
+      _$UnexpectedErrorCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class _$UnexpectedErrorCopyWithImpl<$Res>
+    extends _$ChatFailureCopyWithImpl<$Res>
+    implements $UnexpectedErrorCopyWith<$Res> {
+  _$UnexpectedErrorCopyWithImpl(
+      UnexpectedError _value, $Res Function(UnexpectedError) _then)
+      : super(_value, (v) => _then(v as UnexpectedError));
+
+  @override
+  UnexpectedError get _value => super._value as UnexpectedError;
+}
+
+/// @nodoc
+
+class _$UnexpectedError implements UnexpectedError {
+  const _$UnexpectedError();
+
+  @override
+  String toString() {
+    return 'ChatFailure.unexpected()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is UnexpectedError);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() serverError,
+    required TResult Function() cacheError,
+    required TResult Function() unexpected,
+  }) {
+    return unexpected();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function()? serverError,
+    TResult Function()? cacheError,
+    TResult Function()? unexpected,
+  }) {
+    return unexpected?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? serverError,
+    TResult Function()? cacheError,
+    TResult Function()? unexpected,
+    required TResult orElse(),
+  }) {
+    if (unexpected != null) {
+      return unexpected();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ServerError value) serverError,
+    required TResult Function(CacheError value) cacheError,
+    required TResult Function(UnexpectedError value) unexpected,
+  }) {
+    return unexpected(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(ServerError value)? serverError,
+    TResult Function(CacheError value)? cacheError,
+    TResult Function(UnexpectedError value)? unexpected,
+  }) {
+    return unexpected?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ServerError value)? serverError,
+    TResult Function(CacheError value)? cacheError,
+    TResult Function(UnexpectedError value)? unexpected,
+    required TResult orElse(),
+  }) {
+    if (unexpected != null) {
+      return unexpected(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class UnexpectedError implements ChatFailure {
+  const factory UnexpectedError() = _$UnexpectedError;
 }

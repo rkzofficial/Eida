@@ -6,4 +6,5 @@ part 'chat_failure.freezed.dart';
 class ChatFailure with _$ChatFailure {
   const factory ChatFailure.serverError() = ServerError;
   const factory ChatFailure.cacheError() = CacheError;
+  const factory ChatFailure.unexpected() = UnexpectedError;
 }

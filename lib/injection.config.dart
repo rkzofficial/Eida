@@ -9,13 +9,15 @@ import 'package:get_it/get_it.dart' as _i1;
 import 'package:google_sign_in/google_sign_in.dart' as _i6;
 import 'package:injectable/injectable.dart' as _i2;
 
-import 'application/auth/auth_bloc.dart' as _i10;
-import 'application/auth/sign_in_form/sign_in_form_bloc.dart' as _i9;
+import 'application/auth/auth_bloc.dart' as _i12;
+import 'application/auth/sign_in_form/sign_in_form_bloc.dart' as _i11;
 import 'domain/auth/i_auth_facade.dart' as _i7;
+import 'domain/chat/i_chat_repository.dart' as _i9;
 import 'infrastructure/auth/firebase_auth_facade.dart' as _i8;
 import 'infrastructure/auth/firebase_user_mapper.dart' as _i5;
-import 'infrastructure/core/app_router_injectable_module.dart' as _i11;
-import 'infrastructure/core/firebase_injectable_module.dart' as _i12;
+import 'infrastructure/chat/chat_repository.dart' as _i10;
+import 'infrastructure/core/app_router_injectable_module.dart' as _i13;
+import 'infrastructure/core/firebase_injectable_module.dart' as _i14;
 import 'presentation/routes/router.gr.dart' as _i3;
 
 const String _prod = 'prod';
@@ -37,12 +39,13 @@ _i1.GetIt $initGetIt(_i1.GetIt get,
       () => _i8.FirebaseAuthFacade(get<_i4.FirebaseAuth>(),
           get<_i5.FirebaseUserMapper>(), get<_i6.GoogleSignIn>()),
       registerFor: {_prod});
-  gh.factory<_i9.SignInFormBloc>(
-      () => _i9.SignInFormBloc(get<_i7.IAuthFacade>()));
-  gh.factory<_i10.AuthBloc>(() => _i10.AuthBloc(get<_i7.IAuthFacade>()));
+  gh.lazySingleton<_i9.IChatRepository>(() => _i10.ChatRepository());
+  gh.factory<_i11.SignInFormBloc>(
+      () => _i11.SignInFormBloc(get<_i7.IAuthFacade>()));
+  gh.factory<_i12.AuthBloc>(() => _i12.AuthBloc(get<_i7.IAuthFacade>()));
   return get;
 }
 
-class _$AppRouterInjectableModule extends _i11.AppRouterInjectableModule {}
+class _$AppRouterInjectableModule extends _i13.AppRouterInjectableModule {}
 
-class _$FirebaseInjectableModule extends _i12.FirebaseInjectableModule {}
+class _$FirebaseInjectableModule extends _i14.FirebaseInjectableModule {}

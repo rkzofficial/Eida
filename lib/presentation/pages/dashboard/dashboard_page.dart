@@ -31,7 +31,60 @@ class DashboardPage extends StatelessWidget {
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 25.0),
         child: FloatingActionButton.extended(
-          onPressed: () {},
+          onPressed: () {
+            showModalBottomSheet<void>(
+              constraints: BoxConstraints(
+                maxWidth: MediaQuery.of(context).size.width - 50,
+              ),
+              context: context,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0),
+              ),
+              builder: (BuildContext context) {
+                return Container(
+                  height: 250,
+                  color: Colors.white10,
+                  child: Center(
+                    child: Column(
+                      children: <Widget>[
+                        const SizedBox(height: 20),
+                        Text(
+                          'Select a topic',
+                          style: Theme.of(context).textTheme.headline6,
+                        ),
+                        const SizedBox(height: 20),
+                        TextButton.icon(
+                          style: TextButton.styleFrom(
+                            primary: Colors.blue[700],
+                          ),
+                          onPressed: () {},
+                          icon: const Icon(Icons.restaurant),
+                          label: const Text('Restaurant'),
+                        ),
+                        TextButton.icon(
+                          style: TextButton.styleFrom(
+                            primary: Colors.green[700],
+                          ),
+                          onPressed: () {},
+                          icon: const Icon(Icons.file_copy_sharp),
+                          label: const Text('   Interview  '),
+                        ),
+                        const SizedBox(height: 20),
+                        TextButton.icon(
+                          style: TextButton.styleFrom(
+                            primary: Colors.red[900],
+                          ),
+                          onPressed: () => Navigator.pop(context),
+                          icon: const Icon(Icons.arrow_back_outlined),
+                          label: const Text('Back'),
+                        )
+                      ],
+                    ),
+                  ),
+                );
+              },
+            );
+          },
           icon: const Icon(Icons.add),
           label: const Text('Start a conversation'),
           backgroundColor: const Color(0xff2972ff),

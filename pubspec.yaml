@@ -27,6 +27,8 @@ dependencies:
   flutter_svg: ^1.0.3
   flutter_hooks: ^0.18.3
   cached_network_image: ^3.2.0
+  json_annotation: ^4.4.0
+  freezed_annotation: ^1.1.0
 
 dev_dependencies:
   flutter_test:
@@ -38,6 +40,7 @@ dev_dependencies:
   freezed: ^1.1.1
   change_app_package_name: ^1.0.0
   injectable_generator: ^1.5.3
+  json_serializable: ^6.1.5
 
 flutter:
   uses-material-design: true
