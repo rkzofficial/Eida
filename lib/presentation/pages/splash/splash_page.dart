@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -6,7 +5,7 @@ import '../../../application/auth/auth_bloc.dart';
 import '../../../injection.dart';
 import '../../routes/router.gr.dart';
 
-class SplashPage extends StatelessWidget implements AutoRouteWrapper {
+class SplashPage extends StatelessWidget {
   const SplashPage({Key? key}) : super(key: key);
 
   @override
@@ -26,15 +25,6 @@ class SplashPage extends StatelessWidget implements AutoRouteWrapper {
       child: const Center(
         child: CircularProgressIndicator(),
       ),
-    );
-  }
-
-  @override
-  Widget wrappedRoute(BuildContext context) {
-    return BlocProvider(
-      create: (context) =>
-          getIt<AuthBloc>()..add(const AuthEvent.authCheckRequested()),
-      child: this, // this as the child Important!
     );
   }
 }

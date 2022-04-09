@@ -1,9 +1,10 @@
 import 'package:dartz/dartz.dart';
-import 'package:eida/domain/auth/value_objects.dart';
-import 'package:eida/domain/core/entity.dart';
-import 'package:eida/domain/core/failures.dart';
-import 'package:eida/domain/core/value_objects.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+import '../core/entity.dart';
+import '../core/failures.dart';
+import '../core/value_objects.dart';
+import 'value_objects.dart';
 
 part 'user.freezed.dart';
 
