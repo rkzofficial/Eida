@@ -1,33 +1,43 @@
-import 'package:auto_route/auto_route.dart';
+import 'package:eida/application/auth/auth_bloc.dart';
+import 'package:eida/presentation/pages/dashboard/widgets/profile_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../application/auth/auth_bloc.dart';
-import '../../../injection.dart';
-import '../../routes/router.gr.dart';
-
-class DashboardPage extends StatelessWidget implements AutoRouteWrapper {
+class DashboardPage extends StatelessWidget {
   const DashboardPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: ElevatedButton(
-            onPressed: () {
-              getIt<AppRouter>().replace(const SignInRoute());
-              context.read<AuthBloc>().add(const AuthEvent.signedOut());
-            },
-            child: const Text('Log Out')),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            children: [
+              const SizedBox(height: 50),
+              BlocBuilder<AuthBloc, AuthState>(
+                builder: (context, state) => state.maybeWhen(
+                  orElse: () => Container(),
+                  authenticated: (user) => ProfileHeader(
+                    name: user.name.getOrCrash(),
+                    photoUrl: user.photoUrl.getOrCrash(),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
-    );
-  }
-
-  @override
-  Widget wrappedRoute(BuildContext context) {
-    return BlocProvider(
-      create: (context) => getIt<AuthBloc>(),
-      child: this, // this as the child Important!
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 25.0),
+        child: FloatingActionButton.extended(
+          onPressed: () {},
+          icon: const Icon(Icons.add),
+          label: const Text('Start a conversation'),
+          backgroundColor: const Color(0xff2972ff),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
