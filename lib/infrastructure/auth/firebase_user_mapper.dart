@@ -14,7 +14,8 @@ class FirebaseUserMapper {
             id: UniqueId.fromUniqueString(_.uid),
             name: StringSingleLine(_.displayName ?? _.email!.split('@').first),
             emailAddress: EmailAddress(_.email!),
-            photoUrl: PhotoUrl(_.photoURL!),
+            photoUrl: PhotoUrl(_.photoURL ??
+                'https://ui-avatars.com/api/?name=${_.email!.split('@').first}'),
           );
   }
 }

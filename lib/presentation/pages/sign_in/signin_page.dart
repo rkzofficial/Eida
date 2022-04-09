@@ -1,27 +1,19 @@
+import 'package:eida/presentation/pages/sign_in/widgets/sign_up_form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 
 import '../../../application/auth/sign_in_form/sign_in_form_bloc.dart';
 import '../../../injection.dart';
 import 'widgets/sign_in_form.dart';
 
-class SignInPage extends StatefulWidget {
+class SignInPage extends HookWidget {
   const SignInPage({Key? key}) : super(key: key);
 
   @override
-  _SignInPageState createState() => _SignInPageState();
-}
-
-class _SignInPageState extends State<SignInPage> {
-  bool passwordVisible = false;
-  void togglePassword() {
-    setState(() {
-      passwordVisible = !passwordVisible;
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final isRegister = useState(false);
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
@@ -36,7 +28,9 @@ class _SignInPageState extends State<SignInPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Sign in to your\naccount',
+                      isRegister.value
+                          ? 'Register your account'
+                          : 'Sign in to your\naccount',
                       style: Theme.of(context)
                           .textTheme
                           .headline4!
@@ -49,22 +43,29 @@ class _SignInPageState extends State<SignInPage> {
                 const SizedBox(height: 48),
                 BlocProvider(
                   create: (context) => getIt<SignInFormBloc>(),
-                  child: const SignInForm(),
+                  child: isRegister.value
+                      ? const SignupForm()
+                      : const SignInForm(),
                 ),
                 const SizedBox(height: 48),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Don't have an account? ",
+                      !isRegister.value
+                          ? "Don't have an account? "
+                          : "Already have an account? ",
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w400,
                       ).copyWith(color: Colors.grey[600]),
                     ),
                     GestureDetector(
+                      onTap: () {
+                        isRegister.value = !isRegister.value;
+                      },
                       child: Text(
-                        'Register',
+                        !isRegister.value ? 'Register' : 'Sign in',
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w400,
