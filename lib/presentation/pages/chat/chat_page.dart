@@ -74,7 +74,7 @@ class ChatPage extends StatelessWidget with AutoRouteWrapper {
                     final chatWords = (_chatBloc.state as ChatLoaded).currentChat.chatItems.last.message.getOrCrash();
 
                     if (state.lastWords.isNotEmpty) {
-                      if (chatWords.toLowerCase().contains(state.lastWords.toLowerCase().replaceAll(',', ''))) {
+                      if (chatWords.toLowerCase().replaceAll(',', '').contains(state.lastWords.toLowerCase())) {
                         _chatBloc.add(const ChatEvent.nextChat());
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
