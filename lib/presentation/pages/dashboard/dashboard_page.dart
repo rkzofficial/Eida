@@ -58,8 +58,13 @@ class DashboardPage extends StatelessWidget with AutoRouteWrapper {
                               const Divider(),
                             ],
                           )
-                        : const Center(
-                            child: Text('There is no past conversations'),
+                        : Column(
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              SizedBox(height: MediaQuery.of(context).size.height / 4),
+                              const Icon(Icons.show_chart_outlined, size: 100, color: Colors.grey),
+                              const Text('There is no past conversations.'),
+                            ],
                           );
                   },
                 ),

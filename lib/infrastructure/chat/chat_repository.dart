@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dartz/dartz.dart';
+import 'package:eida/domain/auth/i_auth_facade.dart';
 import 'package:eida/infrastructure/chat/chat_dtos.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:injectable/injectable.dart';
@@ -15,8 +16,14 @@ import 'package:http/http.dart' as http;
 @LazySingleton(as: IChatRepository)
 class ChatRepository implements IChatRepository {
   final Box _box;
+  final IAuthFacade authFacade;
 
-  ChatRepository(this._box);
+  ChatRepository(this._box, this.authFacade);
+
+  String get username {
+    final user = authFacade.getSignedInUser();
+    return user.fold(() => throw const UnexpectedError(), (a) => a.emailAddress.getOrCrash());
+  }
 
   @override
   Future<Either<ChatFailure, Chat>> getChatByType(StringSingleLine chatType) async {
@@ -44,9 +51,20 @@ class ChatRepository implements IChatRepository {
   @override
   Future<Either<ChatFailure, List<Chat>>> getSavedChats() async {
     try {
-      final chats = _box.values.map((e) {
-        final chat = jsonDecode(e) as Map;
-        return Chat(
+      final List<Chat> chats = [];
+
+      for (var i = 0; i < _box.keys.length; i++) {
+        final key = _box.keys.elementAt(i) as String;
+
+        final user = key.split('#')[0];
+
+        if (user != username) {
+          continue;
+        }
+
+        final chat = jsonDecode(_box.get(key)) as Map;
+
+        chats.add(Chat(
           id: UniqueId.fromUniqueString(chat['id']),
           type: StringSingleLine(chat['type']),
           chatItems: chat['chatItems']
@@ -60,8 +78,8 @@ class ChatRepository implements IChatRepository {
                 ),
               )
               .toList(),
-        );
-      }).toList();
+        ));
+      }
       return right(chats);
     } catch (e) {
       return left(const ChatFailure.cacheError());
@@ -83,7 +101,7 @@ class ChatRepository implements IChatRepository {
             .toList()
       };
       final res = jsonEncode(json);
-      await _box.put(chat.id.getOrCrash(), res);
+      await _box.put('$username#${chat.id.getOrCrash()}', res);
       return right(unit);
     } catch (e) {
       return left(const ChatFailure.cacheError());
@@ -93,7 +111,7 @@ class ChatRepository implements IChatRepository {
   @override
   Future<Either<ChatFailure, Unit>> deleteChat(Chat chat) async {
     try {
-      await _box.delete(chat.id.getOrCrash());
+      await _box.delete('$username#${chat.id.getOrCrash()}');
       return right(unit);
     } catch (e) {
       return left(const ChatFailure.cacheError());

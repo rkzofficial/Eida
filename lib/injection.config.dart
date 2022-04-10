@@ -48,8 +48,8 @@ Future<_i1.GetIt> $initGetIt(_i1.GetIt get,
       () => _i9.FirebaseAuthFacade(get<_i5.FirebaseAuth>(),
           get<_i6.FirebaseUserMapper>(), get<_i7.GoogleSignIn>()),
       registerFor: {_prod});
-  gh.lazySingleton<_i10.IChatRepository>(
-      () => _i11.ChatRepository(get<_i4.Box<dynamic>>()));
+  gh.lazySingleton<_i10.IChatRepository>(() =>
+      _i11.ChatRepository(get<_i4.Box<dynamic>>(), get<_i8.IAuthFacade>()));
   gh.factory<_i12.MicBloc>(() => _i12.MicBloc());
   gh.factory<_i13.SignInFormBloc>(
       () => _i13.SignInFormBloc(get<_i8.IAuthFacade>()));

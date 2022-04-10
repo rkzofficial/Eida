@@ -17,16 +17,13 @@ class FirebaseAuthFacade implements IAuthFacade {
   final GoogleSignIn _googleSignIn;
   final FirebaseUserMapper _firebaseUserMapper;
 
-  FirebaseAuthFacade(
-      this._firebaseAuth, this._firebaseUserMapper, this._googleSignIn);
+  FirebaseAuthFacade(this._firebaseAuth, this._firebaseUserMapper, this._googleSignIn);
 
   @override
-  Future<Option<User>> getSignedInUser() async =>
-      optionOf(_firebaseUserMapper.toDomain(_firebaseAuth.currentUser));
+  Option<User> getSignedInUser() => optionOf(_firebaseUserMapper.toDomain(_firebaseAuth.currentUser));
 
   @override
-  Future<Either<AuthFailure, Unit>> registerWithEmailAndPassword(
-      {required EmailAddress emailAddress, required Password password}) async {
+  Future<Either<AuthFailure, Unit>> registerWithEmailAndPassword({required EmailAddress emailAddress, required Password password}) async {
     final emailAddressStr = emailAddress.value.getOrElse(() => 'INVALID EMAIL');
     final passwordStr = password.value.getOrElse(() => 'INVALID PASSWORD');
     try {
@@ -45,8 +42,7 @@ class FirebaseAuthFacade implements IAuthFacade {
   }
 
   @override
-  Future<Either<AuthFailure, Unit>> signInWithEmailAndPassword(
-      {required EmailAddress emailAddress, required Password password}) async {
+  Future<Either<AuthFailure, Unit>> signInWithEmailAndPassword({required EmailAddress emailAddress, required Password password}) async {
     final emailAddressStr = emailAddress.value.getOrElse(() => 'INVALID EMAIL');
     final passwordStr = password.value.getOrElse(() => 'INVALID PASSWORD');
     try {
