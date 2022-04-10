@@ -52,7 +52,7 @@ class UniqueId extends ValueObject<String> {
   // We cannot let a simple String be passed in. This would allow for possible non-unique IDs.
   factory UniqueId() {
     return UniqueId._(
-      right(const Uuid().v1()),
+      right(const Uuid().v4()),
     );
   }
 

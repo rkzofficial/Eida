@@ -15,6 +15,9 @@ part 'chat_state.dart';
 class ChatBloc extends Bloc<ChatEvent, ChatState> {
   final IChatRepository _chatRepository;
   final List<ChatItem> chatItems = [];
+
+  int tries = 0;
+
   Chat? _chat;
 
   ChatBloc(this._chatRepository) : super(const ChatState.loading()) {
@@ -33,11 +36,15 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
           chatItems.add(_chat!.chatItems[1]);
           _chat!.chatItems.removeAt(0);
           _chat!.chatItems.removeAt(0);
-          emit(ChatState.loaded(chat, Chat(id: chat.id, type: chat.type, chatItems: chatItems)));
+          emit(ChatState.loaded(chat, Chat(id: chat.id, type: chat.type, chatItems: chatItems), tries, false));
         });
       },
       nextChat: (e) {
-        if (_chat == null) {
+        if (_chat == null || _chat!.chatItems.isEmpty) {
+          if (state is ChatLoaded) {
+            final currentState = state as ChatLoaded;
+            emit(currentState.copyWith(isFinished: true));
+          }
           return;
         }
 
@@ -46,15 +53,11 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         _chat!.chatItems.removeAt(0);
         _chat!.chatItems.removeAt(0);
 
-        emit(ChatState.loaded(_chat!, Chat(id: _chat!.id, type: _chat!.type, chatItems: chatItems)));
+        tries++;
 
-        // if (chatItems.length == _chat!.chatItems.length) {
-        //   emit(const ChatState.finished());
-        //   return;
-        // }
+        final newState = ChatState.loaded(_chat!, Chat(id: _chat!.id, type: _chat!.type, chatItems: chatItems), tries, false);
 
-        // chatItems.add(_chat!.chatItems[chatItems.length]);
-        // emit(ChatState.loaded(_chat!, Chat(id: _chat!.id, type: _chat!.type, chatItems: chatItems)));
+        emit(newState);
       },
     );
   }

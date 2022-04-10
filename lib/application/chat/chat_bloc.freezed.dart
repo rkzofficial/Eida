@@ -329,10 +329,12 @@ class _$ChatStateTearOff {
     return const ChatLoading();
   }
 
-  ChatLoaded loaded(Chat chat, Chat currentChat) {
+  ChatLoaded loaded(Chat chat, Chat currentChat, int tries, bool isFinished) {
     return ChatLoaded(
       chat,
       currentChat,
+      tries,
+      isFinished,
     );
   }
 
@@ -340,10 +342,6 @@ class _$ChatStateTearOff {
     return ChatError(
       failure,
     );
-  }
-
-  ChatFinished finished() {
-    return const ChatFinished();
   }
 }
 
@@ -355,25 +353,26 @@ mixin _$ChatState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function(Chat chat, Chat currentChat) loaded,
+    required TResult Function(
+            Chat chat, Chat currentChat, int tries, bool isFinished)
+        loaded,
     required TResult Function(ChatFailure failure) error,
-    required TResult Function() finished,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(Chat chat, Chat currentChat)? loaded,
+    TResult Function(Chat chat, Chat currentChat, int tries, bool isFinished)?
+        loaded,
     TResult Function(ChatFailure failure)? error,
-    TResult Function()? finished,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(Chat chat, Chat currentChat)? loaded,
+    TResult Function(Chat chat, Chat currentChat, int tries, bool isFinished)?
+        loaded,
     TResult Function(ChatFailure failure)? error,
-    TResult Function()? finished,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -382,7 +381,6 @@ mixin _$ChatState {
     required TResult Function(ChatLoading value) loading,
     required TResult Function(ChatLoaded value) loaded,
     required TResult Function(ChatError value) error,
-    required TResult Function(ChatFinished value) finished,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -390,7 +388,6 @@ mixin _$ChatState {
     TResult Function(ChatLoading value)? loading,
     TResult Function(ChatLoaded value)? loaded,
     TResult Function(ChatError value)? error,
-    TResult Function(ChatFinished value)? finished,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -398,7 +395,6 @@ mixin _$ChatState {
     TResult Function(ChatLoading value)? loading,
     TResult Function(ChatLoaded value)? loaded,
     TResult Function(ChatError value)? error,
-    TResult Function(ChatFinished value)? finished,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -460,9 +456,10 @@ class _$ChatLoading implements ChatLoading {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function(Chat chat, Chat currentChat) loaded,
+    required TResult Function(
+            Chat chat, Chat currentChat, int tries, bool isFinished)
+        loaded,
     required TResult Function(ChatFailure failure) error,
-    required TResult Function() finished,
   }) {
     return loading();
   }
@@ -471,9 +468,9 @@ class _$ChatLoading implements ChatLoading {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(Chat chat, Chat currentChat)? loaded,
+    TResult Function(Chat chat, Chat currentChat, int tries, bool isFinished)?
+        loaded,
     TResult Function(ChatFailure failure)? error,
-    TResult Function()? finished,
   }) {
     return loading?.call();
   }
@@ -482,9 +479,9 @@ class _$ChatLoading implements ChatLoading {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(Chat chat, Chat currentChat)? loaded,
+    TResult Function(Chat chat, Chat currentChat, int tries, bool isFinished)?
+        loaded,
     TResult Function(ChatFailure failure)? error,
-    TResult Function()? finished,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -499,7 +496,6 @@ class _$ChatLoading implements ChatLoading {
     required TResult Function(ChatLoading value) loading,
     required TResult Function(ChatLoaded value) loaded,
     required TResult Function(ChatError value) error,
-    required TResult Function(ChatFinished value) finished,
   }) {
     return loading(this);
   }
@@ -510,7 +506,6 @@ class _$ChatLoading implements ChatLoading {
     TResult Function(ChatLoading value)? loading,
     TResult Function(ChatLoaded value)? loaded,
     TResult Function(ChatError value)? error,
-    TResult Function(ChatFinished value)? finished,
   }) {
     return loading?.call(this);
   }
@@ -521,7 +516,6 @@ class _$ChatLoading implements ChatLoading {
     TResult Function(ChatLoading value)? loading,
     TResult Function(ChatLoaded value)? loaded,
     TResult Function(ChatError value)? error,
-    TResult Function(ChatFinished value)? finished,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -540,7 +534,7 @@ abstract class $ChatLoadedCopyWith<$Res> {
   factory $ChatLoadedCopyWith(
           ChatLoaded value, $Res Function(ChatLoaded) then) =
       _$ChatLoadedCopyWithImpl<$Res>;
-  $Res call({Chat chat, Chat currentChat});
+  $Res call({Chat chat, Chat currentChat, int tries, bool isFinished});
 
   $ChatCopyWith<$Res> get chat;
   $ChatCopyWith<$Res> get currentChat;
@@ -559,6 +553,8 @@ class _$ChatLoadedCopyWithImpl<$Res> extends _$ChatStateCopyWithImpl<$Res>
   $Res call({
     Object? chat = freezed,
     Object? currentChat = freezed,
+    Object? tries = freezed,
+    Object? isFinished = freezed,
   }) {
     return _then(ChatLoaded(
       chat == freezed
@@ -569,6 +565,14 @@ class _$ChatLoadedCopyWithImpl<$Res> extends _$ChatStateCopyWithImpl<$Res>
           ? _value.currentChat
           : currentChat // ignore: cast_nullable_to_non_nullable
               as Chat,
+      tries == freezed
+          ? _value.tries
+          : tries // ignore: cast_nullable_to_non_nullable
+              as int,
+      isFinished == freezed
+          ? _value.isFinished
+          : isFinished // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 
@@ -590,16 +594,20 @@ class _$ChatLoadedCopyWithImpl<$Res> extends _$ChatStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$ChatLoaded implements ChatLoaded {
-  const _$ChatLoaded(this.chat, this.currentChat);
+  const _$ChatLoaded(this.chat, this.currentChat, this.tries, this.isFinished);
 
   @override
   final Chat chat;
   @override
   final Chat currentChat;
+  @override
+  final int tries;
+  @override
+  final bool isFinished;
 
   @override
   String toString() {
-    return 'ChatState.loaded(chat: $chat, currentChat: $currentChat)';
+    return 'ChatState.loaded(chat: $chat, currentChat: $currentChat, tries: $tries, isFinished: $isFinished)';
   }
 
   @override
@@ -609,14 +617,19 @@ class _$ChatLoaded implements ChatLoaded {
             other is ChatLoaded &&
             const DeepCollectionEquality().equals(other.chat, chat) &&
             const DeepCollectionEquality()
-                .equals(other.currentChat, currentChat));
+                .equals(other.currentChat, currentChat) &&
+            const DeepCollectionEquality().equals(other.tries, tries) &&
+            const DeepCollectionEquality()
+                .equals(other.isFinished, isFinished));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(chat),
-      const DeepCollectionEquality().hash(currentChat));
+      const DeepCollectionEquality().hash(currentChat),
+      const DeepCollectionEquality().hash(tries),
+      const DeepCollectionEquality().hash(isFinished));
 
   @JsonKey(ignore: true)
   @override
@@ -627,35 +640,36 @@ class _$ChatLoaded implements ChatLoaded {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function(Chat chat, Chat currentChat) loaded,
+    required TResult Function(
+            Chat chat, Chat currentChat, int tries, bool isFinished)
+        loaded,
     required TResult Function(ChatFailure failure) error,
-    required TResult Function() finished,
   }) {
-    return loaded(chat, currentChat);
+    return loaded(chat, currentChat, tries, isFinished);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(Chat chat, Chat currentChat)? loaded,
+    TResult Function(Chat chat, Chat currentChat, int tries, bool isFinished)?
+        loaded,
     TResult Function(ChatFailure failure)? error,
-    TResult Function()? finished,
   }) {
-    return loaded?.call(chat, currentChat);
+    return loaded?.call(chat, currentChat, tries, isFinished);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(Chat chat, Chat currentChat)? loaded,
+    TResult Function(Chat chat, Chat currentChat, int tries, bool isFinished)?
+        loaded,
     TResult Function(ChatFailure failure)? error,
-    TResult Function()? finished,
     required TResult orElse(),
   }) {
     if (loaded != null) {
-      return loaded(chat, currentChat);
+      return loaded(chat, currentChat, tries, isFinished);
     }
     return orElse();
   }
@@ -666,7 +680,6 @@ class _$ChatLoaded implements ChatLoaded {
     required TResult Function(ChatLoading value) loading,
     required TResult Function(ChatLoaded value) loaded,
     required TResult Function(ChatError value) error,
-    required TResult Function(ChatFinished value) finished,
   }) {
     return loaded(this);
   }
@@ -677,7 +690,6 @@ class _$ChatLoaded implements ChatLoaded {
     TResult Function(ChatLoading value)? loading,
     TResult Function(ChatLoaded value)? loaded,
     TResult Function(ChatError value)? error,
-    TResult Function(ChatFinished value)? finished,
   }) {
     return loaded?.call(this);
   }
@@ -688,7 +700,6 @@ class _$ChatLoaded implements ChatLoaded {
     TResult Function(ChatLoading value)? loading,
     TResult Function(ChatLoaded value)? loaded,
     TResult Function(ChatError value)? error,
-    TResult Function(ChatFinished value)? finished,
     required TResult orElse(),
   }) {
     if (loaded != null) {
@@ -699,10 +710,13 @@ class _$ChatLoaded implements ChatLoaded {
 }
 
 abstract class ChatLoaded implements ChatState {
-  const factory ChatLoaded(Chat chat, Chat currentChat) = _$ChatLoaded;
+  const factory ChatLoaded(
+      Chat chat, Chat currentChat, int tries, bool isFinished) = _$ChatLoaded;
 
   Chat get chat;
   Chat get currentChat;
+  int get tries;
+  bool get isFinished;
   @JsonKey(ignore: true)
   $ChatLoadedCopyWith<ChatLoaded> get copyWith =>
       throw _privateConstructorUsedError;
@@ -780,9 +794,10 @@ class _$ChatError implements ChatError {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function(Chat chat, Chat currentChat) loaded,
+    required TResult Function(
+            Chat chat, Chat currentChat, int tries, bool isFinished)
+        loaded,
     required TResult Function(ChatFailure failure) error,
-    required TResult Function() finished,
   }) {
     return error(failure);
   }
@@ -791,9 +806,9 @@ class _$ChatError implements ChatError {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(Chat chat, Chat currentChat)? loaded,
+    TResult Function(Chat chat, Chat currentChat, int tries, bool isFinished)?
+        loaded,
     TResult Function(ChatFailure failure)? error,
-    TResult Function()? finished,
   }) {
     return error?.call(failure);
   }
@@ -802,9 +817,9 @@ class _$ChatError implements ChatError {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(Chat chat, Chat currentChat)? loaded,
+    TResult Function(Chat chat, Chat currentChat, int tries, bool isFinished)?
+        loaded,
     TResult Function(ChatFailure failure)? error,
-    TResult Function()? finished,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -819,7 +834,6 @@ class _$ChatError implements ChatError {
     required TResult Function(ChatLoading value) loading,
     required TResult Function(ChatLoaded value) loaded,
     required TResult Function(ChatError value) error,
-    required TResult Function(ChatFinished value) finished,
   }) {
     return error(this);
   }
@@ -830,7 +844,6 @@ class _$ChatError implements ChatError {
     TResult Function(ChatLoading value)? loading,
     TResult Function(ChatLoaded value)? loaded,
     TResult Function(ChatError value)? error,
-    TResult Function(ChatFinished value)? finished,
   }) {
     return error?.call(this);
   }
@@ -841,7 +854,6 @@ class _$ChatError implements ChatError {
     TResult Function(ChatLoading value)? loading,
     TResult Function(ChatLoaded value)? loaded,
     TResult Function(ChatError value)? error,
-    TResult Function(ChatFinished value)? finished,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -858,120 +870,4 @@ abstract class ChatError implements ChatState {
   @JsonKey(ignore: true)
   $ChatErrorCopyWith<ChatError> get copyWith =>
       throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $ChatFinishedCopyWith<$Res> {
-  factory $ChatFinishedCopyWith(
-          ChatFinished value, $Res Function(ChatFinished) then) =
-      _$ChatFinishedCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class _$ChatFinishedCopyWithImpl<$Res> extends _$ChatStateCopyWithImpl<$Res>
-    implements $ChatFinishedCopyWith<$Res> {
-  _$ChatFinishedCopyWithImpl(
-      ChatFinished _value, $Res Function(ChatFinished) _then)
-      : super(_value, (v) => _then(v as ChatFinished));
-
-  @override
-  ChatFinished get _value => super._value as ChatFinished;
-}
-
-/// @nodoc
-
-class _$ChatFinished implements ChatFinished {
-  const _$ChatFinished();
-
-  @override
-  String toString() {
-    return 'ChatState.finished()';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is ChatFinished);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() loading,
-    required TResult Function(Chat chat, Chat currentChat) loaded,
-    required TResult Function(ChatFailure failure) error,
-    required TResult Function() finished,
-  }) {
-    return finished();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? loading,
-    TResult Function(Chat chat, Chat currentChat)? loaded,
-    TResult Function(ChatFailure failure)? error,
-    TResult Function()? finished,
-  }) {
-    return finished?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? loading,
-    TResult Function(Chat chat, Chat currentChat)? loaded,
-    TResult Function(ChatFailure failure)? error,
-    TResult Function()? finished,
-    required TResult orElse(),
-  }) {
-    if (finished != null) {
-      return finished();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(ChatLoading value) loading,
-    required TResult Function(ChatLoaded value) loaded,
-    required TResult Function(ChatError value) error,
-    required TResult Function(ChatFinished value) finished,
-  }) {
-    return finished(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(ChatLoading value)? loading,
-    TResult Function(ChatLoaded value)? loaded,
-    TResult Function(ChatError value)? error,
-    TResult Function(ChatFinished value)? finished,
-  }) {
-    return finished?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(ChatLoading value)? loading,
-    TResult Function(ChatLoaded value)? loaded,
-    TResult Function(ChatError value)? error,
-    TResult Function(ChatFinished value)? finished,
-    required TResult orElse(),
-  }) {
-    if (finished != null) {
-      return finished(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class ChatFinished implements ChatState {
-  const factory ChatFinished() = _$ChatFinished;
 }

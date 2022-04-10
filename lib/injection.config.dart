@@ -42,7 +42,7 @@ _i1.GetIt $initGetIt(_i1.GetIt get,
           get<_i5.FirebaseUserMapper>(), get<_i6.GoogleSignIn>()),
       registerFor: {_prod});
   gh.lazySingleton<_i9.IChatRepository>(() => _i10.ChatRepository());
-  gh.singleton<_i11.MicBloc>(_i11.MicBloc());
+  gh.factory<_i11.MicBloc>(() => _i11.MicBloc());
   gh.factory<_i12.SignInFormBloc>(
       () => _i12.SignInFormBloc(get<_i7.IAuthFacade>()));
   gh.factory<_i13.AuthBloc>(() => _i13.AuthBloc(get<_i7.IAuthFacade>()));

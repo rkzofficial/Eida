@@ -9,7 +9,7 @@ part 'mic_bloc.freezed.dart';
 part 'mic_event.dart';
 part 'mic_state.dart';
 
-@singleton
+@injectable
 class MicBloc extends Bloc<MicEvent, MicState> {
   final _speechToText = SpeechToText();
 
@@ -33,7 +33,9 @@ class MicBloc extends Bloc<MicEvent, MicState> {
 
     final result = await listen();
 
-    emit(state.copyWith(isListening: false, lastWords: result));
+    emit(state.copyWith(lastWords: result));
+
+    await _stopListening(emit);
   }
 
   Future<String> listen() async {

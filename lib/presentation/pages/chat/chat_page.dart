@@ -28,8 +28,7 @@ class ChatPage extends StatelessWidget with AutoRouteWrapper {
         builder: (context, state) => state.when(
           loading: () => const Center(child: CircularProgressIndicator()),
           error: (error) => Center(child: Text('Error: $error')),
-          finished: () => const Center(child: Text('Finished')),
-          loaded: (chat, currentChat) => Column(
+          loaded: (_, currentChat, __, finished) => Column(
             children: [
               ListView.builder(
                 itemCount: currentChat.chatItems.length,
@@ -37,7 +36,7 @@ class ChatPage extends StatelessWidget with AutoRouteWrapper {
                 padding: const EdgeInsets.only(top: 10, bottom: 10),
                 physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
-                  final chatItem = chat.chatItems[index];
+                  final chatItem = currentChat.chatItems[index];
                   final user = chatItem.user.getOrCrash();
                   final message = chatItem.message.getOrCrash();
 
@@ -59,7 +58,9 @@ class ChatPage extends StatelessWidget with AutoRouteWrapper {
               ),
               BlocConsumer<MicBloc, MicState>(
                 listener: (context, state) {
-                  print(state);
+                  if (state.lastWords.isNotEmpty) {
+                    _chatBloc.add(const ChatEvent.nextChat());
+                  }
                 },
                 builder: (context, state) => state.isListening
                     ? Container(
@@ -104,20 +105,28 @@ class ChatPage extends StatelessWidget with AutoRouteWrapper {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.only(bottom: 25.0),
-        child: BlocBuilder<MicBloc, MicState>(
-          builder: (context, state) {
-            final bloc = context.read<MicBloc>();
+      floatingActionButton: BlocBuilder<ChatBloc, ChatState>(
+        bloc: _chatBloc,
+        builder: (context, state) => state.maybeMap(
+          orElse: () => Container(),
+          loaded: (chat) => !chat.isFinished
+              ? Padding(
+                  padding: const EdgeInsets.only(bottom: 25.0),
+                  child: BlocBuilder<MicBloc, MicState>(
+                    builder: (context, state) {
+                      final bloc = context.read<MicBloc>();
 
-            return FloatingActionButton(
-              onPressed: !state.isListening
-                  ? () => bloc.add(const MicEvent.start())
-                  : () => bloc.add(const MicEvent.stop()), // If not yet listening for speech start, otherwise stop
-              child: Icon(!state.isListening ? Icons.mic_off_outlined : Icons.mic_none),
-              backgroundColor: !state.isListening ? const Color(0xff2972ff) : Colors.red,
-            );
-          },
+                      return FloatingActionButton(
+                        onPressed: !state.isListening
+                            ? () => bloc.add(const MicEvent.start())
+                            : () => bloc.add(const MicEvent.stop()), // If not yet listening for speech start, otherwise stop
+                        child: Icon(!state.isListening ? Icons.mic_off_outlined : Icons.mic_none),
+                        backgroundColor: !state.isListening ? const Color(0xff2972ff) : Colors.red,
+                      );
+                    },
+                  ),
+                )
+              : Container(),
         ),
       ),
     );
