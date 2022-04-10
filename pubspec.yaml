@@ -44,6 +44,12 @@ dev_dependencies:
   change_app_package_name: ^1.0.0
   injectable_generator: ^1.5.3
   json_serializable: ^6.1.5
+  flutter_launcher_icons: ^0.9.1
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/icon/icon.png"
 
 flutter:
   uses-material-design: true

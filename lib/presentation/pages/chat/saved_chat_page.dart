@@ -17,6 +17,7 @@ class SavedChatPage extends StatelessWidget {
         foregroundColor: Colors.black,
         elevation: 0,
       ),
+      backgroundColor: Colors.white,
       body: ListView.builder(
         itemCount: chat.chatItems.length,
         shrinkWrap: true,

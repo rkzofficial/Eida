@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:eida/application/auth/auth_bloc.dart';
 import 'package:eida/application/chat/mic/mic_bloc.dart';
 import 'package:eida/presentation/routes/router.gr.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,8 @@ class ChatPage extends StatelessWidget with AutoRouteWrapper {
 
   @override
   Widget build(BuildContext context) {
+    final username = (context.read<AuthBloc>().state as Authenticated).user.name.getOrCrash();
+
     final ChatBloc _chatBloc = getIt<ChatBloc>()..add(ChatEvent.getChat(chatType));
     return WillPopScope(
       onWillPop: () async {
@@ -44,7 +47,11 @@ class ChatPage extends StatelessWidget with AutoRouteWrapper {
                   itemBuilder: (context, index) {
                     final chatItem = currentChat.chatItems[index];
                     final user = chatItem.user.getOrCrash();
-                    final message = chatItem.message.getOrCrash();
+                    var message = chatItem.message.getOrCrash();
+
+                    if (index == 0) {
+                      message = '$message, $username';
+                    }
 
                     return Container(
                       padding: const EdgeInsets.only(left: 14, right: 14, top: 5, bottom: 10),
