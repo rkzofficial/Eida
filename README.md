@@ -1,8 +1,15 @@
+
+
 <p align="center">
   <img src="https://raw.githubusercontent.com/Kir4Kun/Eida/main/assets/icon/icon.png" width="200">
 </p>
-
- # Eida&nbsp; [![Eida App Android Release](https://github.com/Kir4Kun/Eida/actions/workflows/android-release.yml/badge.svg)](https://github.com/Kir4Kun/Eida/actions/workflows/android-release.yml)
+<p align="center">
+  <a src="https://github.com/Kir4Kun/Eida/actions/workflows/android-release.yml"><img src="https://github.com/Kir4Kun/Eida/actions/workflows/android-release.yml/badge.svg" width="250"></a>
+</p>
+<h1 align="center"> Eida </h1>
+ <p align="center">
+  <img src="https://raw.githubusercontent.com/Kir4Kun/Eida/main/public/demo.gif" width="250">
+</p>
 
 AI Tutor Friend which helps in practicing English speaking and
 also makes you learn faster by correcting your grammar, pronunciation, and fluency.
@@ -20,7 +27,7 @@ practicing English
 
 ### 2. When a user clicks on a topic, a chat screen appears with “Hi USERNAME”.
 
-&nbsp;&nbsp;&nbsp;&nbsp;a. The user sees the sentence that he has to speak. The user will tap on the audio button and speak. You can use any flutter library to convert &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;speech to text.\
+&nbsp;&nbsp;&nbsp;&nbsp;a. The user sees the sentence that he has to speak. The user will tap on the audio button and speak. You can use any flutter library to convert speech to text.\
 
 &nbsp;&nbsp;&nbsp;&nbsp;b. If the reply matches the expected sentence, then move to the next sentence.\
 
