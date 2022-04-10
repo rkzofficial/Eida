@@ -1,81 +1,19 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:eida/application/chat/mic/mic_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:speech_to_text/speech_recognition_result.dart';
-import 'package:speech_to_text/speech_to_text.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ChatMessage {
-  final String messageContent;
-  final String messageType;
-  ChatMessage({required this.messageContent, required this.messageType});
-}
+import '../../../application/chat/chat_bloc.dart';
+import '../../../injection.dart';
 
-class ChatPage extends StatefulWidget {
+class ChatPage extends StatelessWidget with AutoRouteWrapper {
   final String chatType;
 
   const ChatPage({Key? key, required this.chatType}) : super(key: key);
 
   @override
-  State<ChatPage> createState() => _ChatPageState();
-}
-
-class _ChatPageState extends State<ChatPage> {
-  List<ChatMessage> messages = [
-    ChatMessage(messageContent: "Hello, Will", messageType: "receiver"),
-    ChatMessage(messageContent: "How have you been?", messageType: "receiver"),
-    ChatMessage(
-        messageContent: "Hey Kriss, I am doing fine dude. wbu?",
-        messageType: "sender"),
-    ChatMessage(messageContent: "ehhhh, doing OK.", messageType: "receiver"),
-    ChatMessage(
-        messageContent: "Is there any thing wrong?", messageType: "sender"),
-  ];
-
-  final _speechToText = SpeechToText();
-  bool _speechEnabled = false;
-  String _lastWords = '';
-
-  @override
-  void initState() {
-    super.initState();
-    _initSpeech();
-  }
-
-  /// This has to happen only once per app
-  void _initSpeech() async {
-    _speechEnabled = await _speechToText.initialize();
-    setState(() {});
-  }
-
-  /// Each time to start a speech recognition session
-  void _startListening() async {
-    await _speechToText.listen(
-        onResult: _onSpeechResult, partialResults: false);
-    setState(() {});
-  }
-
-  /// Manually stop the active speech recognition session
-  /// Note that there are also timeouts that each platform enforces
-  /// and the SpeechToText plugin supports setting timeouts on the
-  /// listen method.
-  void _stopListening() async {
-    await _speechToText.stop();
-    setState(() {});
-  }
-
-  /// This is the callback that the SpeechToText plugin calls when
-  /// the platform returns recognized words.
-  void _onSpeechResult(SpeechRecognitionResult result) {
-    setState(() {
-      _lastWords = result.recognizedWords;
-      if (_lastWords.isNotEmpty) {
-        messages.add(
-            ChatMessage(messageContent: _lastWords, messageType: "sender"));
-        _lastWords = '';
-      }
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final ChatBloc _chatBloc = getIt<ChatBloc>()..add(ChatEvent.getChat(chatType));
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -85,55 +23,108 @@ class _ChatPageState extends State<ChatPage> {
         elevation: 0,
       ),
       backgroundColor: Colors.white,
-      body: Column(
-        children: [
-          ListView.builder(
-            itemCount: messages.length,
-            shrinkWrap: true,
-            padding: const EdgeInsets.only(top: 10, bottom: 10),
-            physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) {
-              return Container(
-                padding: const EdgeInsets.only(
-                    left: 14, right: 14, top: 5, bottom: 10),
-                child: Align(
-                  alignment: (messages[index].messageType == "receiver"
-                      ? Alignment.topLeft
-                      : Alignment.topRight),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: (messages[index].messageType == "receiver"
-                          ? Colors.grey.shade200
-                          : Colors.blue[200]),
+      body: BlocBuilder<ChatBloc, ChatState>(
+        bloc: _chatBloc,
+        builder: (context, state) => state.when(
+          loading: () => const Center(child: CircularProgressIndicator()),
+          error: (error) => Center(child: Text('Error: $error')),
+          finished: () => const Center(child: Text('Finished')),
+          loaded: (chat, currentChat) => Column(
+            children: [
+              ListView.builder(
+                itemCount: currentChat.chatItems.length,
+                shrinkWrap: true,
+                padding: const EdgeInsets.only(top: 10, bottom: 10),
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                  final chatItem = chat.chatItems[index];
+                  final user = chatItem.user.getOrCrash();
+                  final message = chatItem.message.getOrCrash();
+
+                  return Container(
+                    padding: const EdgeInsets.only(left: 14, right: 14, top: 5, bottom: 10),
+                    child: Align(
+                      alignment: user == 'bot' ? Alignment.topLeft : Alignment.topRight,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: user == 'bot' ? Colors.grey.shade200 : Colors.blue[200],
+                        ),
+                        padding: const EdgeInsets.all(14),
+                        child: Text(message, style: const TextStyle(fontSize: 15)),
+                      ),
                     ),
-                    padding: const EdgeInsets.all(14),
-                    child: Text(
-                      messages[index].messageContent,
-                      style: const TextStyle(fontSize: 15),
-                    ),
-                  ),
-                ),
-              );
-            },
-          )
-        ],
+                  );
+                },
+              ),
+              BlocConsumer<MicBloc, MicState>(
+                listener: (context, state) {
+                  print(state);
+                },
+                builder: (context, state) => state.isListening
+                    ? Container(
+                        padding: const EdgeInsets.only(left: 14, right: 14, bottom: 10),
+                        child: Align(
+                          alignment: Alignment.topRight,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: Colors.grey.shade200,
+                            ),
+                            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 14),
+                            child: Text(
+                              'Your mic is listening...',
+                              style: TextStyle(fontSize: 12, color: Colors.grey.shade600, fontStyle: FontStyle.italic),
+                            ),
+                          ),
+                        ),
+                      )
+                    : state.lastWords.isNotEmpty
+                        ? Container(
+                            padding: const EdgeInsets.only(left: 14, right: 14, bottom: 10),
+                            child: Align(
+                              alignment: Alignment.topRight,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  color: Colors.grey.shade200,
+                                ),
+                                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 14),
+                                child: Text(
+                                  state.lastWords,
+                                  style: TextStyle(fontSize: 12, color: Colors.grey.shade600, fontStyle: FontStyle.italic),
+                                ),
+                              ),
+                            ),
+                          )
+                        : Container(),
+              )
+            ],
+          ),
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 25.0),
-        child: FloatingActionButton(
-          onPressed:
-              // If not yet listening for speech start, otherwise stop
-              _speechToText.isNotListening ? _startListening : _stopListening,
-          child: Icon(!_speechToText.isNotListening
-              ? Icons.mic_off_outlined
-              : Icons.mic_none),
-          backgroundColor: _speechToText.isNotListening
-              ? const Color(0xff2972ff)
-              : Colors.red,
+        child: BlocBuilder<MicBloc, MicState>(
+          builder: (context, state) {
+            final bloc = context.read<MicBloc>();
+
+            return FloatingActionButton(
+              onPressed: !state.isListening
+                  ? () => bloc.add(const MicEvent.start())
+                  : () => bloc.add(const MicEvent.stop()), // If not yet listening for speech start, otherwise stop
+              child: Icon(!state.isListening ? Icons.mic_off_outlined : Icons.mic_none),
+              backgroundColor: !state.isListening ? const Color(0xff2972ff) : Colors.red,
+            );
+          },
         ),
       ),
     );
+  }
+
+  @override
+  Widget wrappedRoute(BuildContext context) {
+    return BlocProvider(create: (_) => getIt<MicBloc>(), child: this);
   }
 }

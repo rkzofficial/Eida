@@ -17,7 +17,7 @@ class Chat with _$Chat implements IEntity {
 class ChatItem with _$ChatItem implements IEntity {
   const factory ChatItem({
     required UniqueId id,
-    required StringSingleLine bot,
-    required StringSingleLine human,
+    required StringSingleLine user,
+    required StringSingleLine message,
   }) = _ChatItem;
 }

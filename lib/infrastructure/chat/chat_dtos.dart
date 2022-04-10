@@ -13,16 +13,22 @@ class ChatItemDto with _$ChatItemDto {
     required String human,
   }) = _ChatItemDto;
 
-  factory ChatItemDto.fromJson(Map<String, dynamic> json) =>
-      _$ChatItemDtoFromJson(json);
+  factory ChatItemDto.fromJson(Map<String, dynamic> json) => _$ChatItemDtoFromJson(json);
 }
 
 extension ChatItemDtoX on ChatItemDto {
-  ChatItem toDomain() {
-    return ChatItem(
-      id: UniqueId(),
-      bot: StringSingleLine(bot),
-      human: StringSingleLine(human),
-    );
+  List<ChatItem> toDomain() {
+    return [
+      ChatItem(
+        id: UniqueId(),
+        user: StringSingleLine('bot'),
+        message: StringSingleLine(bot),
+      ),
+      ChatItem(
+        id: UniqueId(),
+        user: StringSingleLine('human'),
+        message: StringSingleLine(human),
+      )
+    ];
   }
 }

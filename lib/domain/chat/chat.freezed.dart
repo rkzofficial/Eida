@@ -185,12 +185,12 @@ class _$ChatItemTearOff {
 
   _ChatItem call(
       {required UniqueId id,
-      required StringSingleLine bot,
-      required StringSingleLine human}) {
+      required StringSingleLine user,
+      required StringSingleLine message}) {
     return _ChatItem(
       id: id,
-      bot: bot,
-      human: human,
+      user: user,
+      message: message,
     );
   }
 }
@@ -201,8 +201,8 @@ const $ChatItem = _$ChatItemTearOff();
 /// @nodoc
 mixin _$ChatItem {
   UniqueId get id => throw _privateConstructorUsedError;
-  StringSingleLine get bot => throw _privateConstructorUsedError;
-  StringSingleLine get human => throw _privateConstructorUsedError;
+  StringSingleLine get user => throw _privateConstructorUsedError;
+  StringSingleLine get message => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ChatItemCopyWith<ChatItem> get copyWith =>
@@ -213,7 +213,7 @@ mixin _$ChatItem {
 abstract class $ChatItemCopyWith<$Res> {
   factory $ChatItemCopyWith(ChatItem value, $Res Function(ChatItem) then) =
       _$ChatItemCopyWithImpl<$Res>;
-  $Res call({UniqueId id, StringSingleLine bot, StringSingleLine human});
+  $Res call({UniqueId id, StringSingleLine user, StringSingleLine message});
 }
 
 /// @nodoc
@@ -227,21 +227,21 @@ class _$ChatItemCopyWithImpl<$Res> implements $ChatItemCopyWith<$Res> {
   @override
   $Res call({
     Object? id = freezed,
-    Object? bot = freezed,
-    Object? human = freezed,
+    Object? user = freezed,
+    Object? message = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as UniqueId,
-      bot: bot == freezed
-          ? _value.bot
-          : bot // ignore: cast_nullable_to_non_nullable
+      user: user == freezed
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
               as StringSingleLine,
-      human: human == freezed
-          ? _value.human
-          : human // ignore: cast_nullable_to_non_nullable
+      message: message == freezed
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
               as StringSingleLine,
     ));
   }
@@ -252,7 +252,7 @@ abstract class _$ChatItemCopyWith<$Res> implements $ChatItemCopyWith<$Res> {
   factory _$ChatItemCopyWith(_ChatItem value, $Res Function(_ChatItem) then) =
       __$ChatItemCopyWithImpl<$Res>;
   @override
-  $Res call({UniqueId id, StringSingleLine bot, StringSingleLine human});
+  $Res call({UniqueId id, StringSingleLine user, StringSingleLine message});
 }
 
 /// @nodoc
@@ -267,21 +267,21 @@ class __$ChatItemCopyWithImpl<$Res> extends _$ChatItemCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = freezed,
-    Object? bot = freezed,
-    Object? human = freezed,
+    Object? user = freezed,
+    Object? message = freezed,
   }) {
     return _then(_ChatItem(
       id: id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as UniqueId,
-      bot: bot == freezed
-          ? _value.bot
-          : bot // ignore: cast_nullable_to_non_nullable
+      user: user == freezed
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
               as StringSingleLine,
-      human: human == freezed
-          ? _value.human
-          : human // ignore: cast_nullable_to_non_nullable
+      message: message == freezed
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
               as StringSingleLine,
     ));
   }
@@ -290,18 +290,19 @@ class __$ChatItemCopyWithImpl<$Res> extends _$ChatItemCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_ChatItem implements _ChatItem {
-  const _$_ChatItem({required this.id, required this.bot, required this.human});
+  const _$_ChatItem(
+      {required this.id, required this.user, required this.message});
 
   @override
   final UniqueId id;
   @override
-  final StringSingleLine bot;
+  final StringSingleLine user;
   @override
-  final StringSingleLine human;
+  final StringSingleLine message;
 
   @override
   String toString() {
-    return 'ChatItem(id: $id, bot: $bot, human: $human)';
+    return 'ChatItem(id: $id, user: $user, message: $message)';
   }
 
   @override
@@ -310,16 +311,16 @@ class _$_ChatItem implements _ChatItem {
         (other.runtimeType == runtimeType &&
             other is _ChatItem &&
             const DeepCollectionEquality().equals(other.id, id) &&
-            const DeepCollectionEquality().equals(other.bot, bot) &&
-            const DeepCollectionEquality().equals(other.human, human));
+            const DeepCollectionEquality().equals(other.user, user) &&
+            const DeepCollectionEquality().equals(other.message, message));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(id),
-      const DeepCollectionEquality().hash(bot),
-      const DeepCollectionEquality().hash(human));
+      const DeepCollectionEquality().hash(user),
+      const DeepCollectionEquality().hash(message));
 
   @JsonKey(ignore: true)
   @override
@@ -330,15 +331,15 @@ class _$_ChatItem implements _ChatItem {
 abstract class _ChatItem implements ChatItem {
   const factory _ChatItem(
       {required UniqueId id,
-      required StringSingleLine bot,
-      required StringSingleLine human}) = _$_ChatItem;
+      required StringSingleLine user,
+      required StringSingleLine message}) = _$_ChatItem;
 
   @override
   UniqueId get id;
   @override
-  StringSingleLine get bot;
+  StringSingleLine get user;
   @override
-  StringSingleLine get human;
+  StringSingleLine get message;
   @override
   @JsonKey(ignore: true)
   _$ChatItemCopyWith<_ChatItem> get copyWith =>

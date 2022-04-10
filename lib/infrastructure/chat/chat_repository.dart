@@ -14,24 +14,21 @@ import 'package:http/http.dart' as http;
 @LazySingleton(as: IChatRepository)
 class ChatRepository implements IChatRepository {
   @override
-  Future<Either<ChatFailure, Chat>> getChatByType(
-      StringSingleLine chatType) async {
+  Future<Either<ChatFailure, Chat>> getChatByType(StringSingleLine chatType) async {
     try {
-      final chatResponse = await http.get(Uri.parse(
-          'https://my-json-server.typicode.com/tryninjastudy/dummyapi/db'));
+      final chatResponse = await http.get(Uri.parse('https://my-json-server.typicode.com/tryninjastudy/dummyapi/db'));
 
       final chat = jsonDecode(chatResponse.body) as Map;
 
-      if (chat[chatType] == null) {
+      if (!chat.containsKey(chatType.getOrCrash())) {
         return left(const ChatFailure.unexpected());
       }
+
       return right(
         Chat(
           id: UniqueId(),
-          type: chat[chatType],
-          chatItems: (chat[chatType] as List)
-              .map((e) => ChatItemDto.fromJson(e).toDomain())
-              .toList(),
+          type: chatType,
+          chatItems: (chat[chatType.getOrCrash()] as List).map((e) => ChatItemDto.fromJson(e).toDomain()).toList().expand((i) => i).toList(),
         ),
       );
     } catch (e) {
