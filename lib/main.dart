@@ -13,7 +13,7 @@ void main() async {
   // Initialize the Firebase app.
   await Firebase.initializeApp();
 
-  configureInjection(Environment.prod);
+  await configureInjection(Environment.prod);
 
   runApp(const App());
 }

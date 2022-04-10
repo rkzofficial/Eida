@@ -56,6 +56,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         tries++;
 
         final newState = ChatState.loaded(_chat!, Chat(id: _chat!.id, type: _chat!.type, chatItems: chatItems), tries, false);
+        _chatRepository.saveChat((newState as ChatLoaded).currentChat);
 
         emit(newState);
       },
