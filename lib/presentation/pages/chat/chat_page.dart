@@ -58,8 +58,20 @@ class ChatPage extends StatelessWidget with AutoRouteWrapper {
               ),
               BlocConsumer<MicBloc, MicState>(
                 listener: (context, state) {
+                  final chatWords = (_chatBloc.state as ChatLoaded).currentChat.chatItems.last.message.getOrCrash();
+
                   if (state.lastWords.isNotEmpty) {
-                    _chatBloc.add(const ChatEvent.nextChat());
+                    if (chatWords.toLowerCase().contains(state.lastWords.toLowerCase().replaceAll(',', ''))) {
+                      _chatBloc.add(const ChatEvent.nextChat());
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Please say "$chatWords", you said "${state.lastWords}"'),
+                          backgroundColor: Colors.red,
+                          duration: const Duration(seconds: 2),
+                        ),
+                      );
+                    }
                   }
                 },
                 builder: (context, state) => state.isListening

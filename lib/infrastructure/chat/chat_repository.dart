@@ -89,4 +89,14 @@ class ChatRepository implements IChatRepository {
       return left(const ChatFailure.cacheError());
     }
   }
+
+  @override
+  Future<Either<ChatFailure, Unit>> deleteChat(Chat chat) async {
+    try {
+      await _box.delete(chat.id.getOrCrash());
+      return right(unit);
+    } catch (e) {
+      return left(const ChatFailure.cacheError());
+    }
+  }
 }

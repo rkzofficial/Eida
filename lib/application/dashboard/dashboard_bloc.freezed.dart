@@ -21,6 +21,12 @@ class _$DashboardEventTearOff {
   GetSavedChats getSavedChats() {
     return const GetSavedChats();
   }
+
+  DeleteChat deleteChat(Chat chat) {
+    return DeleteChat(
+      chat,
+    );
+  }
 }
 
 /// @nodoc
@@ -31,32 +37,38 @@ mixin _$DashboardEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() getSavedChats,
+    required TResult Function(Chat chat) deleteChat,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? getSavedChats,
+    TResult Function(Chat chat)? deleteChat,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? getSavedChats,
+    TResult Function(Chat chat)? deleteChat,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(GetSavedChats value) getSavedChats,
+    required TResult Function(DeleteChat value) deleteChat,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(GetSavedChats value)? getSavedChats,
+    TResult Function(DeleteChat value)? deleteChat,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(GetSavedChats value)? getSavedChats,
+    TResult Function(DeleteChat value)? deleteChat,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -121,6 +133,7 @@ class _$GetSavedChats implements GetSavedChats {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() getSavedChats,
+    required TResult Function(Chat chat) deleteChat,
   }) {
     return getSavedChats();
   }
@@ -129,6 +142,7 @@ class _$GetSavedChats implements GetSavedChats {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? getSavedChats,
+    TResult Function(Chat chat)? deleteChat,
   }) {
     return getSavedChats?.call();
   }
@@ -137,6 +151,7 @@ class _$GetSavedChats implements GetSavedChats {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? getSavedChats,
+    TResult Function(Chat chat)? deleteChat,
     required TResult orElse(),
   }) {
     if (getSavedChats != null) {
@@ -149,6 +164,7 @@ class _$GetSavedChats implements GetSavedChats {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(GetSavedChats value) getSavedChats,
+    required TResult Function(DeleteChat value) deleteChat,
   }) {
     return getSavedChats(this);
   }
@@ -157,6 +173,7 @@ class _$GetSavedChats implements GetSavedChats {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(GetSavedChats value)? getSavedChats,
+    TResult Function(DeleteChat value)? deleteChat,
   }) {
     return getSavedChats?.call(this);
   }
@@ -165,6 +182,7 @@ class _$GetSavedChats implements GetSavedChats {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(GetSavedChats value)? getSavedChats,
+    TResult Function(DeleteChat value)? deleteChat,
     required TResult orElse(),
   }) {
     if (getSavedChats != null) {
@@ -176,6 +194,147 @@ class _$GetSavedChats implements GetSavedChats {
 
 abstract class GetSavedChats implements DashboardEvent {
   const factory GetSavedChats() = _$GetSavedChats;
+}
+
+/// @nodoc
+abstract class $DeleteChatCopyWith<$Res> {
+  factory $DeleteChatCopyWith(
+          DeleteChat value, $Res Function(DeleteChat) then) =
+      _$DeleteChatCopyWithImpl<$Res>;
+  $Res call({Chat chat});
+
+  $ChatCopyWith<$Res> get chat;
+}
+
+/// @nodoc
+class _$DeleteChatCopyWithImpl<$Res> extends _$DashboardEventCopyWithImpl<$Res>
+    implements $DeleteChatCopyWith<$Res> {
+  _$DeleteChatCopyWithImpl(DeleteChat _value, $Res Function(DeleteChat) _then)
+      : super(_value, (v) => _then(v as DeleteChat));
+
+  @override
+  DeleteChat get _value => super._value as DeleteChat;
+
+  @override
+  $Res call({
+    Object? chat = freezed,
+  }) {
+    return _then(DeleteChat(
+      chat == freezed
+          ? _value.chat
+          : chat // ignore: cast_nullable_to_non_nullable
+              as Chat,
+    ));
+  }
+
+  @override
+  $ChatCopyWith<$Res> get chat {
+    return $ChatCopyWith<$Res>(_value.chat, (value) {
+      return _then(_value.copyWith(chat: value));
+    });
+  }
+}
+
+/// @nodoc
+
+class _$DeleteChat implements DeleteChat {
+  const _$DeleteChat(this.chat);
+
+  @override
+  final Chat chat;
+
+  @override
+  String toString() {
+    return 'DashboardEvent.deleteChat(chat: $chat)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is DeleteChat &&
+            const DeepCollectionEquality().equals(other.chat, chat));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(chat));
+
+  @JsonKey(ignore: true)
+  @override
+  $DeleteChatCopyWith<DeleteChat> get copyWith =>
+      _$DeleteChatCopyWithImpl<DeleteChat>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() getSavedChats,
+    required TResult Function(Chat chat) deleteChat,
+  }) {
+    return deleteChat(chat);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function()? getSavedChats,
+    TResult Function(Chat chat)? deleteChat,
+  }) {
+    return deleteChat?.call(chat);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? getSavedChats,
+    TResult Function(Chat chat)? deleteChat,
+    required TResult orElse(),
+  }) {
+    if (deleteChat != null) {
+      return deleteChat(chat);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(GetSavedChats value) getSavedChats,
+    required TResult Function(DeleteChat value) deleteChat,
+  }) {
+    return deleteChat(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(GetSavedChats value)? getSavedChats,
+    TResult Function(DeleteChat value)? deleteChat,
+  }) {
+    return deleteChat?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(GetSavedChats value)? getSavedChats,
+    TResult Function(DeleteChat value)? deleteChat,
+    required TResult orElse(),
+  }) {
+    if (deleteChat != null) {
+      return deleteChat(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class DeleteChat implements DashboardEvent {
+  const factory DeleteChat(Chat chat) = _$DeleteChat;
+
+  Chat get chat;
+  @JsonKey(ignore: true)
+  $DeleteChatCopyWith<DeleteChat> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc

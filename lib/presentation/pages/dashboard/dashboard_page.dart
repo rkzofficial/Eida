@@ -16,7 +16,7 @@ class DashboardPage extends StatelessWidget with AutoRouteWrapper {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Padding(
+          child: Container(
             padding: const EdgeInsets.all(24.0),
             child: Column(
               children: [
@@ -31,26 +31,38 @@ class DashboardPage extends StatelessWidget with AutoRouteWrapper {
                   ),
                 ),
                 const SizedBox(height: 20),
-                const Divider(),
                 BlocBuilder<DashboardBloc, DashboardState>(
                   builder: (context, state) {
-                    return ListView.separated(
-                      separatorBuilder: (context, index) => const Divider(),
-                      itemCount: state.chats.length,
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        final chat = state.chats[index];
-                        return ConversationList(
-                          name: chat.type.getOrCrash().toUpperCase(),
-                          messageText: chat.chatItems.last.message.getOrCrash(),
-                          imageUrl: "https://ui-avatars.com/api/?name=${chat.type.getOrCrash()}]",
-                        );
-                      },
-                    );
+                    return state.chats.isNotEmpty
+                        ? Column(
+                            children: [
+                              const Divider(),
+                              ListView.separated(
+                                separatorBuilder: (context, index) => const Divider(),
+                                itemCount: state.chats.length,
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemBuilder: (context, index) {
+                                  final chat = state.chats[index];
+                                  return ConversationList(
+                                    key: Key(chat.id.getOrCrash()),
+                                    chat: chat,
+                                    name: chat.type.getOrCrash().toUpperCase(),
+                                    messageText: chat.chatItems.last.message.getOrCrash(),
+                                    imageUrl: chat.type.getOrCrash() == 'restaurant'
+                                        ? 'https://www.svgrepo.com/download/129117/restaurant.svg'
+                                        : "https://ui-avatars.com/api/?name=${chat.type.getOrCrash()}]",
+                                  );
+                                },
+                              ),
+                              const Divider(),
+                            ],
+                          )
+                        : const Center(
+                            child: Text('There is no past conversations'),
+                          );
                   },
                 ),
-                const Divider(),
               ],
             ),
           ),
@@ -63,57 +75,52 @@ class DashboardPage extends StatelessWidget with AutoRouteWrapper {
             showModalBottomSheet<void>(
               constraints: BoxConstraints(
                 maxWidth: MediaQuery.of(context).size.width - 50,
+                maxHeight: 250,
               ),
               context: context,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20.0),
               ),
               builder: (BuildContext context) {
-                return Container(
-                  height: 250,
-                  color: Colors.white10,
-                  child: Center(
-                    child: Column(
-                      children: <Widget>[
-                        const SizedBox(height: 20),
-                        Text(
-                          'Select a topic',
-                          style: Theme.of(context).textTheme.headline6,
+                return Center(
+                  child: Column(
+                    children: <Widget>[
+                      const SizedBox(height: 20),
+                      Text(
+                        'Select a topic',
+                        style: Theme.of(context).textTheme.headline6,
+                      ),
+                      const SizedBox(height: 20),
+                      TextButton.icon(
+                        style: TextButton.styleFrom(primary: Colors.blue[700]),
+                        onPressed: () {
+                          Navigator.pop(context);
+                          getIt<AppRouter>().navigate(ChatRoute(chatType: 'restaurant'));
+                        },
+                        icon: const Icon(Icons.restaurant),
+                        label: const Text('Restaurant'),
+                      ),
+                      TextButton.icon(
+                        style: TextButton.styleFrom(
+                          primary: Colors.green[700],
                         ),
-                        const SizedBox(height: 20),
-                        TextButton.icon(
-                          style: TextButton.styleFrom(
-                            primary: Colors.blue[700],
-                          ),
-                          onPressed: () {
-                            Navigator.pop(context);
-                            getIt<AppRouter>().navigate(ChatRoute(chatType: 'restaurant'));
-                          },
-                          icon: const Icon(Icons.restaurant),
-                          label: const Text('Restaurant'),
+                        onPressed: () {
+                          Navigator.pop(context);
+                          getIt<AppRouter>().navigate(ChatRoute(chatType: 'interview'));
+                        },
+                        icon: const Icon(Icons.file_copy_sharp),
+                        label: const Text('   Interview  '),
+                      ),
+                      const SizedBox(height: 20),
+                      TextButton.icon(
+                        style: TextButton.styleFrom(
+                          primary: Colors.red[900],
                         ),
-                        TextButton.icon(
-                          style: TextButton.styleFrom(
-                            primary: Colors.green[700],
-                          ),
-                          onPressed: () {
-                            Navigator.pop(context);
-                            getIt<AppRouter>().navigate(ChatRoute(chatType: 'interview'));
-                          },
-                          icon: const Icon(Icons.file_copy_sharp),
-                          label: const Text('   Interview  '),
-                        ),
-                        const SizedBox(height: 20),
-                        TextButton.icon(
-                          style: TextButton.styleFrom(
-                            primary: Colors.red[900],
-                          ),
-                          onPressed: () => Navigator.pop(context),
-                          icon: const Icon(Icons.arrow_back_outlined),
-                          label: const Text('Back'),
-                        )
-                      ],
-                    ),
+                        onPressed: () => Navigator.pop(context),
+                        icon: const Icon(Icons.arrow_back_outlined),
+                        label: const Text('Back'),
+                      )
+                    ],
                   ),
                 );
               },

@@ -23,6 +23,8 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
       final failureOrChats = await _chatRepository.getSavedChats();
       tries++;
       failureOrChats.fold((l) => null, (r) => emit(state.copyWith(chats: r, tries: tries)));
+    }, deleteChat: (chat) async {
+      await _chatRepository.deleteChat(chat);
     });
   }
 }
