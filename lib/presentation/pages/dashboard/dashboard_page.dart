@@ -56,6 +56,7 @@ class DashboardPage extends StatelessWidget with AutoRouteWrapper {
                                 },
                               ),
                               const Divider(),
+                              const SizedBox(height: 70),
                             ],
                           )
                         : Column(
